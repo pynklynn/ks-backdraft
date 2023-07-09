@@ -94,7 +94,7 @@ export class VampireSlot extends HTMLElement {
     while (parent !== null && !(parent instanceof VampireRoot)) {
       if (parent instanceof VampireSlot) {
         /**
-         * There is nothing stoping someone from placing a <v-slot> in their
+         * There is nothing stopping someone from placing a <v-slot> in their
          * slotted content. If we encounter a <v-slot> within a <v-slot> just
          * ignore it.
          */
