@@ -23,12 +23,12 @@ npm install --save @boulevard/vampire
 This example demonstrates moving content to a nameless slot.
 
 ```typescript
+import { vampireTag } from 'vampire-tag-file'; // TODO fix import
+
 const div = Object.assign(document.createElement('div'), {
-  innerHTML: `
-    <v-root>
-      <h4>Example</h4>
-      <v-slot></v-slot>
-    </v-root>
+  innerHTML: vampireTag`
+    <h4>Example</h4>
+    <v-slot></v-slot>
   `
 };
 
@@ -57,27 +57,17 @@ how easy it is to use Vampire with LitElement.
 
 ```typescript
 import '@boulevard/vampire';
-import { render } from 'lit-html';
-import { customElement, html, LitElement } from 'lit-element';
-
-const WithSlots = (BaseClass: typeof LitElement) => class extends BaseClass {
-  static render = render;
-
-  createRenderRoot() {
-    return document.createElement('v-root');
-  }
-
-  connectedCallback() {
-    if (!this.renderRoot.parentElement) {
-      this.appendChild(this.renderRoot);
-    }
-
-    super.connectedCallback();
-  }
-}
+import { vampireTag } from 'vampire-tag-file'; // TODO fix import
+import { customElement, html, LitElement } from 'lit-element'; // TODO fix lit imports
 
 @customElement('x-example')
 export class ExampleElement extends WithSlots(LitElement) {
+  protected createRenderRoot(): Element | ShadowRoot {
+    const vroot = document.createElement('v-root');
+    this.prepend(vroot);
+    return vroot;
+  }
+
   render() {
     return html`
       <h5>Example</h5>
@@ -109,6 +99,8 @@ The above component will produce the following output when rendered.
   </v-root>
 <x-example>
 ```
+
+<!-- TODO revisit below section -->
 
 #### Simple Todo List App
 

@@ -8,6 +8,23 @@
 <body>
   <h1>Vampire slot local test page</h1>
 
+  <h2>One deep</h2>
+  <outer-component>
+        <h5>Hello from the...erm...insideeeeeeeee</h5>
+  </outer-component>
+
+  <hr>
+
+  <h2>Two deep</h2>
+  <outer-component>
+    <inner-component>
+        <h5>Hello from the...erm...inner-insideeeeeeeee</h5>
+    </inner-component>
+  </outer-component>
+
+  <hr>
+
+  <h3>Three deep</h3>
   <outer-component>
     <inner-component>
       <deep-component>
@@ -15,6 +32,13 @@
       </deep-component>
     </inner-component>
   </outer-component>
+
+  <hr>
+
+  <h3>Lit Example</h3>
+  <lit-ex>
+    <h4>This is in lit, yo!</h4>
+  </lit-ex>
 
   <script src="test/local-test.ts" type="module"></script>
 </body>

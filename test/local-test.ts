@@ -1,15 +1,15 @@
-import '../src';
+import { html, LitElement } from 'lit';
+import { vampireTag } from '../src/vampire-tag';
+import '../src/index';
 
 const template = document.createElement('template');
 
-template.innerHTML = `
-<v-root>
+template.innerHTML = vampireTag`
   <h2>Inside of the outer component</h2>
   <div>
     <p>Slotted right below this</p>
     <v-slot></v-slot>
   </div>
-</v-root>
 `;
 
 class OuterComponent extends HTMLElement {
@@ -26,14 +26,12 @@ customElements.define('outer-component', OuterComponent);
 
 const template2 = document.createElement('template');
 
-template2.innerHTML = `
-<v-root>
+template2.innerHTML = vampireTag`
   <h3>Inside of the inner component</h3>
   <div>
     <p>Slotted right below this</p>
     <v-slot></v-slot>
   </div>
-</v-root>
 `;
 
 class InnerComponent extends HTMLElement {
@@ -50,14 +48,12 @@ customElements.define('inner-component', InnerComponent);
 
 const template3 = document.createElement('template');
 
-template3.innerHTML = `
-<v-root>
+template3.innerHTML = vampireTag`
   <h4>Inside of the deep component</h4>
   <div>
     <p>Slotted right below this</p>
     <v-slot></v-slot>
   </div>
-</v-root>
 `;
 
 class DeepComponent extends HTMLElement {
@@ -71,3 +67,22 @@ class DeepComponent extends HTMLElement {
 }
 
 customElements.define('deep-component', DeepComponent);
+
+
+class LitExample extends LitElement {
+  // TODO create a decorator for lit
+  protected createRenderRoot(): Element | ShadowRoot {
+    const vroot = document.createElement('v-root');
+    this.prepend(vroot);
+    return vroot;
+  }
+
+  render() {
+    return html`
+      <h3>Here is a Lit example</h3>
+      <v-slot></v-slot>
+    `;
+  }
+}
+
+customElements.define('lit-ex', LitExample);
