@@ -1,7 +1,7 @@
 {
-  "name": "keroseen-light-slots",
+  "name": "@pynklynn/backdraft",
   "version": "0.1.0",
-  "description": "Shadowless slots.",
+  "description": "Slots in the light DOM for web components.",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,7 +21,7 @@
     "test-debug": "node --inspect-brk $(npm bin)/jest --runInBand --config jest.config.mjs"
   },
   "author": "Will Steinmetz <willsteinmetz@users.noreply.github.com>",
-  "repository": "git@github.com:pynklynn/keroseen-light-slots.git",
+  "repository": "git@github.com:pynklynn/ks-backdraft.git",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^29.5.2",

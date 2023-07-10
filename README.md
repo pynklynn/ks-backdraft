@@ -1,6 +1,12 @@
-# Vampire 🧛‍♂️
+# Backdraft
 
-Slots without shadows.
+Backdraft provides slotting functionality to components using the light DOM.
+
+Why use the light DOM?
+Until some proposals related to accessibility are implemented as part of the web components spec, there are issues related to accessibility and boundary breaking of the shadow DOM.
+Given that, if accessibility needs to be supported in an application (which frankly, the answer should be "always"), then slots are not usable at the moment.
+
+Backdraft is based on Daniel Nagy's work on [Vampire Slots](https://github.com/Boulevard/vampire).
 
 * [Installation](#installation)
 * [Examples](#examples)
@@ -13,7 +19,7 @@ Slots without shadows.
 This module is installable through npm.
 
 ```
-npm install --save @boulevard/vampire
+npm install --save @pynklynn/backdraft
 ```
 
 ## Examples
@@ -23,30 +29,32 @@ npm install --save @boulevard/vampire
 This example demonstrates moving content to a nameless slot.
 
 ```typescript
-import { vampireTag } from 'vampire-tag-file'; // TODO fix import
+import { backdraftify } from '@pynklynn/backdraft';
 
 const div = Object.assign(document.createElement('div'), {
-  innerHTML: vampireTag`
+  innerHTML: backdraftify`
     <h4>Example</h4>
     <v-slot></v-slot>
   `
 };
 
-div.appendChild(document.createTextNode('👻'));
+const pTag = document.createElement('p');
+pTag.innerHTML = 'This is slotted content';
+div.appendChild(pTag);
 ```
 
 The above script will produce the following output.
 
 ```html
 <div>
-  <v-root>
+  <bd-root>
     <h4>Example</h4>
-    <v-slot>
-      <v-slot-assigned-content>
-        👻
-      </v-slot-assigned-content>
-    </v-slot>
-  </v-root>
+    <bd-slot>
+      <bd-slot-assigned-content>
+        <p>This is slotted content</p>
+      </bd-slot-assigned-content>
+    </bd-slot>
+  </bd-root>
 </div>
 ```
 
@@ -56,22 +64,21 @@ Slots are most useful when combined with custom elements. This is example shows
 how easy it is to use Vampire with LitElement.
 
 ```typescript
-import '@boulevard/vampire';
-import { vampireTag } from 'vampire-tag-file'; // TODO fix import
+import { backdraftify } from '@pynklynn/backdraft';// TODO fix import
 import { customElement, html, LitElement } from 'lit-element'; // TODO fix lit imports
 
 @customElement('x-example')
 export class ExampleElement extends WithSlots(LitElement) {
   protected createRenderRoot(): Element | ShadowRoot {
-    const vroot = document.createElement('v-root');
-    this.prepend(vroot);
-    return vroot;
+    const bdroot = document.createElement('bd-root');
+    this.prepend(bdroot);
+    return bdroot;
   }
 
   render() {
     return html`
       <h5>Example</h5>
-      <v-slot></v-slot>
+      <bd-slot></bd-slot>
     `;
   }
 }
@@ -81,7 +88,7 @@ Given the following markup.
 
 ```html
 <x-example>
-  This content will be slotted.
+  <p>This content will be slotted.</p>
 <x-example>
 ```
 
@@ -89,14 +96,14 @@ The above component will produce the following output when rendered.
 
 ```html
 <x-example>
-  <v-root>
+  <bd-root>
     <h5>Example</h5>
-    <v-slot>
-      <v-slot-assigned-content>
-        This content will be slotted.
-      </v-slot-assigned-content>
-    </v-slot>
-  </v-root>
+    <bd-slot>
+      <bd-slot-assigned-content>
+        <p>This content will be slotted.</p>
+      </bd-slot-assigned-content>
+    </bd-slot>
+  </bd-root>
 <x-example>
 ```
 
@@ -108,20 +115,20 @@ https://stackblitz.com/edit/typescript-uykxn4
 
 ## API Documentation
 
-Vampire is distributed in ES2015 module format.
+Backdraft is distributed in ES2022 module format.
 
-### VampireRoot
+### BackdraftRoot
 
-A `VampireRoot` is the root node of a DOM subtree.
+A `BackdraftRoot` is the root node of a DOM subtree.
 
-### VampireSlot
+### BackdraftSlot
 
-A `VampireSlot` marks the insertion point of foreign content.
+A `BackdraftSlot` marks the insertion point of foreign content.
 
 #### Properties
 
 ```typescript
-VampireSlot::name: string = '';
+BackdraftSlot::name: string = '';
 ```
 
 A slot may be given a name so that it can be targeted.
@@ -129,7 +136,7 @@ A slot may be given a name so that it can be targeted.
 #### Methods
 
 ```typescript
-VampireSlot::assignedElements(options?: {flatten?: boolean}): Element[];
+BackdraftSlot::assignedElements(options?: {flatten?: boolean}): Element[];
 ```
 
 Returns the elements assigned to this slot. If the `flatten` option is set to
@@ -137,7 +144,7 @@ Returns the elements assigned to this slot. If the `flatten` option is set to
 content, otherwise it will still return the assigned content.
 
 ```typescript
-VampireSlot::assignedNodes(options?: {flatten?: boolean}): Node[];
+BackdraftSlot::assignedNodes(options?: {flatten?: boolean}): Node[];
 ```
 
 Returns the nodes assigned to this slot. If the `flatten` option is set to
@@ -148,10 +155,10 @@ content, otherwise it will still return the assigned content.
 
 ```html
 <div>
-  <v-root>
-    <v-slot></v-slot>
-    <v-slot name="second-slot"></v-slot>
-  </v-root>
+  <bd-root>
+    <bd-slot></bd-slot>
+    <bd-slot name="second-slot"></bd-slot>
+  </bd-root>
   <div>This will be moved to the default slot</div>
   <div v-slot="second-slot">This will be moved to the second slot.</div>
 </div>
@@ -176,33 +183,26 @@ slot.addEventListener('v::slotchange', (event: Event) => {
 });
 ```
 
-### VampireSlotFallbackContent
+### BackdraftSlotFallbackContent
 
 Allows fallback content to be assigned to a slot.
 
 **Example**
 
 ```html
-<v-slot>
-  <v-slot-fallback-content>
+<bd-slot>
+  <bd-slot-fallback-content>
     This will be rendered if no content is assigned to this slot.
-  </v-slot-fallback-content>
-</v-slot>
+  </bd-slot-fallback-content>
+</bd-slot>
 ```
 
 ## Browser Support
 
-The last 2 versions of all modern browsers are supported. In addition, IE 11 is
-also supported.
-
-IE 11 requires a custom elements polyfill as well as a `CustomEvent` constructor
-polyfill.
+Evergreen browsers are supported.
 
 ## Caveats
 
-* A `VampireRoot` cannot be a direct ancestor of a `VampireRoot`.
 * Empty `Text` nodes will be assign to a slot and will prevent fallback content
 from being rendered.
 * Fallback content cannot contain more slots.
-* IE and Edge do not support `display: contents`. If you need to support these
-browsers you'll need to account for the extra elements when doing layout.
