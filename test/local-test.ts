@@ -1,5 +1,6 @@
 import { html, LitElement } from 'lit';
 import { backdraftify } from '../src/backdraftify-tag';
+import { backdraftifyLit } from '../src/backdraftify-lit';
 import '../src/index';
 
 const template = document.createElement('template');
@@ -72,15 +73,8 @@ class DeepComponent extends HTMLElement {
 
 customElements.define('deep-component', DeepComponent);
 
-
+@backdraftifyLit
 class LitExample extends LitElement {
-  // TODO create a decorator for lit
-  protected createRenderRoot(): Element | ShadowRoot {
-    const vroot = document.createElement('v-root');
-    this.prepend(vroot);
-    return vroot;
-  }
-
   render() {
     return html`
       <h3>Here is a Lit example</h3>

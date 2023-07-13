@@ -64,17 +64,13 @@ Slots are most useful when combined with custom elements. This is example shows
 how easy it is to use Vampire with LitElement.
 
 ```typescript
-import { backdraftify } from '@pynklynn/backdraft';// TODO fix import
-import { customElement, html, LitElement } from 'lit-element'; // TODO fix lit imports
+import { backdraftifyLit } from '@pynklynn/backdraft';
+import { html, LitElement } from 'lit';
+import { customElement } from 'lit/decorators.js'
 
 @customElement('x-example')
+@backdraftifyLit
 export class ExampleElement extends WithSlots(LitElement) {
-  protected createRenderRoot(): Element | ShadowRoot {
-    const bdroot = document.createElement('bd-root');
-    this.prepend(bdroot);
-    return bdroot;
-  }
-
   render() {
     return html`
       <h5>Example</h5>
