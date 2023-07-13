@@ -79,6 +79,11 @@ class LitExample extends LitElement {
     return html`
       <h3>Here is a Lit example</h3>
       <bd-slot></bd-slot>
+      <bd-slot name="test-named-slot">
+        <bd-slot-fallback-content>
+          <p>This should be replaced by named slot content</p>
+        </bd-slot-fallback-content>
+      </bd-slot>
     `;
   }
 }
