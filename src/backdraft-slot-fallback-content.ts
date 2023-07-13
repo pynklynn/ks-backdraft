@@ -22,7 +22,6 @@ export class BackdraftSlotFallbackContent extends HTMLElement {
         .addEventListener(BackdraftSlotEvents.SlotChange, this._onSlotChange);
     }
 
-    // toggleClass(this, BackdraftSlotFallbackContent.Classes.Hidden, hidden);
     toggleClass(this, BackdraftSlotFallbackContentClasses.hidden, hidden);
   }
 
@@ -37,22 +36,9 @@ export class BackdraftSlotFallbackContent extends HTMLElement {
     const slot = event.target as BackdraftSlot;
     const hidden = Boolean(slot.assignedNodes().length);
 
-    // toggleClass(this, BackdraftSlotFallbackContent.Classes.Hidden, hidden);
     toggleClass(this, BackdraftSlotFallbackContentClasses.hidden, hidden);
   }
 }
-
-// export namespace BackdraftSlotFallbackContent {
-//   export enum Classes {
-//     Hidden = 'bd-slot__fallback-content--hidden'
-//   }
-// }
-
-// declare global {
-//   interface HTMLElementTagNameMap {
-//     [BackdraftSlotFallbackContent.tagName]: BackdraftSlotFallbackContent;
-//   }
-// }
 
 customElements
   .define(BackdraftSlotFallbackContent.tagName, BackdraftSlotFallbackContent);

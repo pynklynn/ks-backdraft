@@ -17,7 +17,7 @@
     "clean": "rm -rf dist",
     "prebuild": "npm test && npm run clean",
     "prepublish": "npm run build",
-    "test": "jest --config jest.config.mjs",
+    "test": "jest --config jest.config.mjs --coverage",
     "test-debug": "node --inspect-brk $(npm bin)/jest --runInBand --config jest.config.mjs"
   },
   "author": "Will Steinmetz <willsteinmetz@users.noreply.github.com>",
