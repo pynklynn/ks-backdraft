@@ -42,3 +42,11 @@ test('Should slot content in a Lit component', async t => {
     .expect(BackdraftPO.litNamedContent.visible)
     .eql(true);
 });
+
+test('Should handle the slot change event', async t => {
+  await t
+    .expect(BackdraftPO.changeEventExample.exists)
+    .eql(true)
+    .expect(BackdraftPO.changeEventNotice.visible)
+    .eql(true);
+});

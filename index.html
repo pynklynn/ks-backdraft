@@ -45,6 +45,19 @@
       <em bd-slot="test-named-slot">This is in a named slot.</em>
     </lit-ex>
 
+    <h3>Change event example</h3>
+    <outer-component id="backdraft-change-event-example"></outer-component>
+    <p id="backdraft-change-event-notice" style="display: none;">Slotted content changed</p>
+
     <script src="test/local-test.ts" type="module"></script>
+    <script defer>
+      const changeEventExample = document.querySelector('#backdraft-change-event-example');
+      changeEventExample.addEventListener('bd-slot-change', (event) => {
+        document.querySelector('#backdraft-change-event-notice').style.display = 'block';
+      });
+      const em = document.createElement('em');
+      em.innerHTML = 'changed content';
+      changeEventExample.appendChild(em);
+    </script>
   </body>
 </html>

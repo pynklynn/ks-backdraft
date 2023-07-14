@@ -2,12 +2,6 @@ export class BackdraftRoot extends HTMLElement {
   static readonly tagName = 'bd-root';
 }
 
-// declare global {
-//   interface HTMLElementTagNameMap {
-//     [BackdraftRoot.tagName]: BackdraftRoot;
-//   }
-// }
-
 const style = Object.assign(document.createElement('style'), {
   textContent: `
     bd-root,

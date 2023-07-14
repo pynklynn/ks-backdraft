@@ -164,17 +164,17 @@ content, otherwise it will still return the assigned content.
 
 ```typescript
 interface ISlotChangeEvent extends CustomEvent {
-  readonly type = 'v::slotchange';
+  readonly type = 'bd-slot-change';
   readonly bubbles = true;
 }
 ```
 
-The `v::slotchange` event is fired when the slot's assigned content changes.
+The `bd-slot-change` event is fired when the slot's assigned content changes.
 
 **Example**
 
 ```typescript
-slot.addEventListener('v::slotchange', (event: Event) => {
+slot.addEventListener('bd-slot-change', (event: Event) => {
   console.log(event.target.assignedNodes());
 });
 ```

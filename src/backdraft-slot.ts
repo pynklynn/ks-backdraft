@@ -4,8 +4,7 @@ import { BackdraftSlotFallbackContent } from './backdraft-slot-fallback-content'
 import { toggleClass } from './utils';
 
 export enum BackdraftSlotEvents {
-  // TODO rename event
-  SlotChange = 'v::slotchange'
+  SlotChange = 'bd-slot-change'
 }
 
 export class BackdraftSlot extends HTMLElement {
@@ -130,17 +129,5 @@ export class BackdraftSlot extends HTMLElement {
     }
   }
 }
-
-// export namespace BackdraftSlot {
-//   export enum Events {
-//     SlotChange = 'v::slotchange'
-//   }
-// }
-
-// declare global {
-//   interface HTMLElementTagNameMap {
-//     [BackdraftSlot.tagName]: BackdraftSlot;
-//   }
-// }
 
 customElements.define(BackdraftSlot.tagName, BackdraftSlot);

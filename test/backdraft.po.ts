@@ -44,4 +44,12 @@ export class BackdraftPO {
   static get litNamedContent(): Selector {
     return Selector('#backdraft-lit bd-slot[name="test-named-slot"] bd-slot-assigned-content em');
   }
+
+  static get changeEventExample(): Selector {
+    return Selector('#backdraft-change-event-example');
+  }
+
+  static get changeEventNotice(): Selector {
+    return Selector('#backdraft-change-event-notice');
+  }
 }
