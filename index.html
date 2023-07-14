@@ -1,45 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vampire Slot local test page</title>
-</head>
-<body>
-  <h1>Vampire slot local test page</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Backdraft Slot local test page</title>
+  </head>
+  <body>
+    <h1>Backdraft slot local test page</h1>
 
-  <h2>One deep</h2>
-  <outer-component>
-        <h5>Hello from the...erm...insideeeeeeeee</h5>
-  </outer-component>
+    <h2>One deep</h2>
+    <outer-component id="backdraft-one-level">
+      <h5>Hello from the...erm...insideeeeeeeee</h5>
+    </outer-component>
 
-  <hr>
+    <br /><br />
 
-  <h2>Two deep</h2>
-  <outer-component>
-    <inner-component>
+    <outer-component id="backdraft-one-level-fallback"></outer-component>
+
+    <hr />
+
+    <h2>Two deep</h2>
+    <outer-component id="backdraft-two-level">
+      <inner-component>
         <h5>Hello from the...erm...inner-insideeeeeeeee</h5>
-    </inner-component>
-  </outer-component>
+      </inner-component>
+    </outer-component>
 
-  <hr>
+    <hr />
 
-  <h3>Three deep</h3>
-  <outer-component>
-    <inner-component>
-      <deep-component>
-        <h5>Hello from the...erm...inner-inner-insideeeeeeeee</h5>
-      </deep-component>
-    </inner-component>
-  </outer-component>
+    <h3>Three deep</h3>
+    <outer-component id="backdraft-three-level">
+      <inner-component>
+        <deep-component>
+          <h5>Hello from the...erm...inner-inner-insideeeeeeeee</h5>
+        </deep-component>
+      </inner-component>
+    </outer-component>
 
-  <hr>
+    <hr />
 
-  <h3>Lit Example</h3>
-  <lit-ex>
-    <h4>This is in lit, yo!</h4>
-  </lit-ex>
+    <h3>Lit Example</h3>
+    <lit-ex id="backdraft-lit">
+      <h4>This is in lit, yo!</h4>
+      <em bd-slot="test-named-slot">This is in a named slot.</em>
+    </lit-ex>
 
-  <script src="test/local-test.ts" type="module"></script>
-</body>
+    <h3>Change event example</h3>
+    <outer-component id="backdraft-change-event-example"></outer-component>
+    <p id="backdraft-change-event-notice" style="display: none;">Slotted content changed</p>
+
+    <script src="test/local-test.ts" type="module"></script>
+    <script defer>
+      const changeEventExample = document.querySelector('#backdraft-change-event-example');
+      changeEventExample.addEventListener('bd-slot-change', (event) => {
+        document.querySelector('#backdraft-change-event-notice').style.display = 'block';
+      });
+      const em = document.createElement('em');
+      em.innerHTML = 'changed content';
+      changeEventExample.appendChild(em);
+    </script>
+  </body>
 </html>

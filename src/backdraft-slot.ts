@@ -1,32 +1,32 @@
-import { VampireRoot } from './vampire-root';
-import { VampireSlotAssignedContent, VampireSlotAssignedContentClasses } from './vampire-slot-assigned-content';
-import { VampireSlotFallbackContent } from './vampire-slot-fallback-content';
+import { BackdraftRoot } from './backdraft-root';
+import { BackdraftSlotAssignedContent, BackdraftSlotAssignedContentClasses } from './backdraft-slot-assigned-content';
+import { BackdraftSlotFallbackContent } from './backdraft-slot-fallback-content';
 import { toggleClass } from './utils';
 
-export enum VampireSlotEvents {
-  SlotChange = 'v::slotchange'
+export enum BackdraftSlotEvents {
+  SlotChange = 'bd-slot-change'
 }
 
-export class VampireSlot extends HTMLElement {
-  static readonly tagName = 'v-slot';
+export class BackdraftSlot extends HTMLElement {
+  static readonly tagName = 'bd-slot';
 
   name: string = this.getAttribute('name') || '';
 
-  protected _assignedContent: VampireSlotAssignedContent;
+  protected _assignedContent: BackdraftSlotAssignedContent;
   protected _observer = new MutationObserver(() => this._updateAssignedContent());
-  protected _vampireRoot: VampireRoot | null = null;
+  protected _vampireRoot: BackdraftRoot | null = null;
 
   constructor() {
     super();
 
-    this._assignedContent = document.createElement(VampireSlotAssignedContent.tagName);
-    this._assignedContent.classList.add(VampireSlotAssignedContentClasses.hidden);
+    this._assignedContent = document.createElement(BackdraftSlotAssignedContent.tagName);
+    this._assignedContent.classList.add(BackdraftSlotAssignedContentClasses.hidden);
 
     const observer = new MutationObserver(() => {
       const hidden = this._assignedContent.childNodes.length === 0;
 
-      toggleClass(this._assignedContent, VampireSlotAssignedContentClasses.hidden, hidden);
-      this.dispatchEvent(new CustomEvent(VampireSlotEvents.SlotChange, {
+      toggleClass(this._assignedContent, BackdraftSlotAssignedContentClasses.hidden, hidden);
+      this.dispatchEvent(new CustomEvent(BackdraftSlotEvents.SlotChange, {
         bubbles: true
       }));
     });
@@ -39,7 +39,7 @@ export class VampireSlot extends HTMLElement {
       this.appendChild(this._assignedContent);
     }
 
-    this._vampireRoot = this._getVampireRoot();
+    this._vampireRoot = this._getBackdraftRoot();
 
     if (!this._vampireRoot) {
       return;
@@ -68,7 +68,7 @@ export class VampireSlot extends HTMLElement {
 
   assignedElements(options: {flatten?: boolean} = {}): Element[] {
     const assignedElements = Array.from(this._assignedContent.children);
-    const fallbackContent = this.querySelector(VampireSlotFallbackContent.tagName);
+    const fallbackContent = this.querySelector(BackdraftSlotFallbackContent.tagName);
 
     return options.flatten && !assignedElements.length
       ? fallbackContent ? Array.from(fallbackContent.children) : []
@@ -77,7 +77,7 @@ export class VampireSlot extends HTMLElement {
 
   assignedNodes(options: {flatten?: boolean} = {}): Node[] {
     const assignedNodes = Array.from(this._assignedContent.childNodes);
-    const fallbackContent = this.querySelector(VampireSlotFallbackContent.tagName);
+    const fallbackContent = this.querySelector(BackdraftSlotFallbackContent.tagName);
 
     return options.flatten && !assignedNodes.length
       ? fallbackContent ? Array.from(fallbackContent.childNodes) : []
@@ -85,17 +85,17 @@ export class VampireSlot extends HTMLElement {
   }
 
   protected _getSlotForNode(node: Node): string {
-    return node instanceof HTMLElement ? node.getAttribute('v-slot') || '' : '';
+    return node instanceof HTMLElement ? node.getAttribute('bd-slot') || '' : '';
   }
 
-  protected _getVampireRoot(): VampireRoot | null {
+  protected _getBackdraftRoot(): BackdraftRoot | null {
     let parent = this.parentElement;
 
-    while (parent !== null && !(parent instanceof VampireRoot)) {
-      if (parent instanceof VampireSlot) {
+    while (parent !== null && !(parent instanceof BackdraftRoot)) {
+      if (parent instanceof BackdraftSlot) {
         /**
-         * There is nothing stopping someone from placing a <v-slot> in their
-         * slotted content. If we encounter a <v-slot> within a <v-slot> just
+         * There is nothing stopping someone from placing a <bd-slot> in their
+         * slotted content. If we encounter a <bd-slot> within a <bd-slot> just
          * ignore it.
          */
         parent = null;
@@ -115,7 +115,7 @@ export class VampireSlot extends HTMLElement {
 
     const assignedContent = Array
       .from(this._vampireRoot.parentElement.childNodes)
-      .filter((node) => !(node instanceof VampireRoot)
+      .filter((node) => !(node instanceof BackdraftRoot)
         && this._getSlotForNode(node) === this.name);
 
     if (assignedContent.length) {
@@ -130,16 +130,4 @@ export class VampireSlot extends HTMLElement {
   }
 }
 
-// export namespace VampireSlot {
-//   export enum Events {
-//     SlotChange = 'v::slotchange'
-//   }
-// }
-
-// declare global {
-//   interface HTMLElementTagNameMap {
-//     [VampireSlot.tagName]: VampireSlot;
-//   }
-// }
-
-customElements.define(VampireSlot.tagName, VampireSlot);
+customElements.define(BackdraftSlot.tagName, BackdraftSlot);
